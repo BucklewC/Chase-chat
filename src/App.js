@@ -4,7 +4,7 @@ import MyChatBot from './components/mychatbot';
 function App() {
   return (
     <div className="App">
-      <myChatBot/>
+      <MyChatBot/>
     </div>
   );
 }

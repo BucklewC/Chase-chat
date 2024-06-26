@@ -75,4 +75,4 @@ const MyChatBot = () => {
   );
 };
 
-render(<MyChatBot />, document.getElementById("root"));
+export default MyChatBot;
