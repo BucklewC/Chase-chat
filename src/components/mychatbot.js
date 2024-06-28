@@ -1,8 +1,8 @@
 // MyChatBot.js
 import React from "react";
-import { render } from "react-dom";
+import render  from "react-dom";
 import ChatBot from "react-chatbotify";
-import Dropdown from "./Dropdown"; // Corrected path
+import Dropdown from "./Dropdown"; 
 
 const MyChatBot = () => {
   const [form, setForm] = React.useState({});
@@ -91,13 +91,7 @@ const MyChatBot = () => {
         />
       ),
       chatDisabled: true,
-      path: (params) => {
-        if (params.userInput === "Yes, end chat") {
-          return "end_unqualified";
-        } else {
-          return "unqualified_opentext";
-        }
-      }
+      path: "qualified"
     },
     noexposure: {
       message: "Without a diagnosis of one of the covered conditions as dictated by the World Trade Center Health program, an individual may not be eligible for compensation from the September 11th Victim Compensation Fund. Would you like to end the chat session now or continue?",
@@ -117,14 +111,45 @@ const MyChatBot = () => {
       function: (params) => setForm({ ...form, unqualified_answer: params.userInput }),
       path: "end_unqualified_open"
     },
-    end_success: {
-      message: "We've received your information and will be in contact with you as soon as possible using the contact information you provided. Thank you for contacting Kreindler & Kreindler LLP."
-    },
     end_unqualified: {
       message: "Thank you for contacting Kreindler & Kreindler LLP."
     },
+    qualified: {
+      message: "Thank you. Based on your answers, you may be eligible for the Victim Compensation Fund. Please provide the following information: Full Name, Phone Number & Email Address. We will use this information to contact you shortly for a free consultation.",
+      path: "end_success"
+    },
     end_unqualified_open: {
       message: "We've received your information and will review it as soon as possible. Thank you for contacting Kreindler & Kreindler LLP."
+    },
+    end_success: {
+      message: "We've received your information and will be in contact with you as soon as possible using the contact information you provided. Thank you for contacting Kreindler & Kreindler LLP."
+    },
+    other: {
+      message: "Would you like a Free Consultation for another legal issue?",
+      function: (params) => setForm({ ...form, something_else: params.userInput }),
+      options: ["Yes", "No"],
+      chatDisabled: true,
+      path: (params) => {
+        if (params.userInput === "Yes") {
+          return "consultation";
+        } else {
+          return "end_unqualified";
+        }
+      }
+    },
+    consultation: {
+      message: "What area is your concern about?",
+      options: ["Maritime Accident", "Toxic Exposure", "Premises Liability", "Aviation Accident", "Terrorism", "Medical or Pharmaceutical", "Other"],
+      function: (params) => setForm({ ...form, consultation_area: params.userInput }),
+      path: "consultation_open"
+    },
+    consultation_open: {
+      message: "Please provide the following information: Full Name, Phone Number & Email Address. We will use this information to contact you shortly for a free consultation.",
+      function: (params) => setForm({ ...form, contact_information: params.userInput }),
+      path: "end_consultation"
+    },
+    end_consultation: {
+      message: "We've received your information and will be in contact with you as soon as possible using the contact information you provided. Thank you for contacting Kreindler & Kreindler LLP."
     }
   };
 
