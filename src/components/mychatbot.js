@@ -30,15 +30,13 @@ export const MyChatBot = () => {
 				'Something Else',
 			],
 			path: (params) => {
-				if (
-					params.userInput ===
-					'Yes, I want to see if I am eligible for compensation'
-				) {
-					return 'eligible';
-				} else if (params.userInput === 'Existing Client') {
-					return 'existing';
-				} else {
-					return 'other';
+				switch (params.userInput) {
+					case 'Yes, I want to see if I am eligible for compensation':
+						return 'eligible';
+					case 'Existing Client':
+						return 'existing';
+					default:
+						return 'other';
 				}
 			},
 		},
@@ -70,10 +68,11 @@ export const MyChatBot = () => {
 			options: ['Myself', 'My Parent', 'My Child', 'Another Relative', 'Other'],
 			chatDisabled: false,
 			path: (params) => {
-				if (params.userInput === 'Myself') {
-					return 'myself';
-				} else {
-					return 'someoneelse';
+				switch (params.userInput) {
+					case 'Myself':
+						return 'myself';
+					default:
+						return 'someoneelse';
 				}
 			},
 		},
@@ -140,10 +139,11 @@ export const MyChatBot = () => {
 			options: ['Yes, end chat', 'No, continue'],
 			chatDisabled: true,
 			path: (params) => {
-				if (params.userInput === 'Yes, end chat') {
-					return 'end_unqualified';
-				} else {
-					return 'unqualified_opentext1';
+				switch (params.userInput) {
+					case 'Yes, end chat':
+						return 'end_unqualified';
+					default:
+						return 'unqualified_opentext1';
 				}
 			},
 		},
@@ -192,10 +192,11 @@ export const MyChatBot = () => {
 			options: ['Yes, end chat', 'No, continue'],
 			chatDisabled: true,
 			path: (params) => {
-				if (params.userInput === 'Yes, end chat') {
-					return 'end_unqualified';
-				} else {
-					return 'unqualified_opentext';
+				switch (params.userInput) {
+					case 'Yes, end chat':
+						return 'end_unqualified';
+					default:
+						return 'unqualified_opentext';
 				}
 			},
 		},
@@ -245,10 +246,11 @@ export const MyChatBot = () => {
 			options: ['Yes', 'No'],
 			chatDisabled: true,
 			path: (params) => {
-				if (params.userInput === 'Yes') {
-					return 'consultation';
-				} else {
-					return 'end_unqualified';
+				switch (params.userInput) {
+					case 'Yes':
+						return 'consultation';
+					default:
+						return 'end_unqualified';
 				}
 			},
 		},
@@ -297,4 +299,6 @@ function generateYearOptions(startYear, endYear) {
 		years.push(year.toString());
 	}
 	return years;
-}
+};
+
+render(<MyChatBot />);
