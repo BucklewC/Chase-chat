@@ -1,12 +1,11 @@
-import './App.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import MyChatBot from './components/mychatbot';
 
-function App() {
-  return (
-    <div className="App">
-      <MyChatBot/>
+const App = () => (
+    <div>
+        <MyChatBot />
     </div>
-  );
-}
+);
 
 export default App;

@@ -3,7 +3,7 @@ import React from 'react';
 import ChatBot from 'react-chatbotify';
 import Dropdown from './Dropdown';
 
-export const MyChatBot = () => {
+const MyChatBot = () => {
 	const [form, setForm] = React.useState({});
 
 	const handleDropdownSelect = (value) => {
@@ -179,7 +179,7 @@ export const MyChatBot = () => {
 			message: 'Just one more question. What year were you diagnosed?',
 			function: (params) =>
 				setForm({ ...form, diagnosis_year: params.userInput }),
-			component: () => (
+			render: () => (
 				<Dropdown options={yearOptions} onSelect={handleDropdownSelect} />
 			),
 			chatDisabled: true,
@@ -301,4 +301,4 @@ function generateYearOptions(startYear, endYear) {
 	return years;
 };
 
-render(<MyChatBot />);
+export default MyChatBot;
