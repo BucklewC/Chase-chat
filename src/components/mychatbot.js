@@ -7,7 +7,7 @@ const MyChatBot = () => {
 	const [form, setForm] = React.useState({});
 
 	const handleDropdownSelect = (value) => {
-		setForm({ ...form, diagnosis_year: value });
+		setForm((prevForm) => ({ ...prevForm, diagnosis_year: value }));
 	};
 
 	const yearOptions = generateYearOptions(2024, 2001);
@@ -177,14 +177,28 @@ const MyChatBot = () => {
 		},
 		hascondition: {
 			message: 'Just one more question. What year were you diagnosed?',
-			function: (params) =>
-				setForm({ ...form, diagnosis_year: params.userInput }),
 			render: () => (
-				<Dropdown options={yearOptions} onSelect={handleDropdownSelect} />
+			  <div style={{ display: 'flex', alignItems: 'center' }}>
+				<Dropdown
+				  key={form.diagnosis_year}
+				  options={yearOptions}
+				  onSelect={handleDropdownSelect}
+				/>
+				<button onClick={() => setForm({ ...form, userInput: form.diagnosis_year })}>
+				  Send
+				</button>
+			  </div>
 			),
 			chatDisabled: true,
-			path: 'qualified',
-		},
+			action: 'userInput',
+			path: (params) => {
+			  if (params.userInput) { // Check if a year is selected
+				return 'qualified'; 
+			  } else {
+				return 'hascondition'; // Stay on the same state if not
+			  }
+			}
+		  },
 		noexposure: {
 			message:
 				'Without a diagnosis of one of the covered conditions as dictated by the World Trade Center Health program, an individual may not be eligible for compensation from the September 11th Victim Compensation Fund. Would you like to end the chat session now or continue?',
@@ -284,12 +298,13 @@ const MyChatBot = () => {
 
 	return (
 		<ChatBot
-			options={{
-				theme: { embedded: true },
-				chatHistory: { storageKey: 'example_advanced_form' },
-			}}
-			flow={flow}
-		/>
+		  options={{
+			theme: { embedded: true },
+			chatHistory: { storageKey: 'example_advanced_form' },
+		  }}
+		  flow={flow}
+		>
+		</ChatBot>
 	);
 };
 
